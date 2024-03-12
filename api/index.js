@@ -6,15 +6,14 @@ import authRouter from "./routes/auth.route.js";
 
 dotenv.config();
 
-
 mongoose
-.connect(process.env.MONGO_URL)
-.then(() => {
-  console.log("Connected to DB!!!");
-})
-.catch((error) => {
-  console.log(error);
-});
+  .connect(process.env.MONGO_URL)
+  .then(() => {
+    console.log("Connected to DB!!!");
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 const app = express();
 
@@ -26,3 +25,13 @@ app.listen(3000, () => {
 
 app.use("/api/user", UserRouter);
 app.use("/api/auth", authRouter);
+
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal server error ";
+  return res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
+});
