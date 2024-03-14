@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios"; // Import Axios
+import axios from "axios";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
@@ -35,7 +35,7 @@ const SignUp = () => {
       navigate("/sign-in");
     } catch (error) {
       setLoading(false);
-      setError(error.message);
+      setError(error.response.data.message);
     }
   };
 
